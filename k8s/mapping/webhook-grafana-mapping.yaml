@@ -1,0 +1,12 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: alert-dispatcher-webhook-external-mapping
+  namespace: alert-dispatcher
+spec:
+  ambassador_id: external
+  host: example.company.com
+  prefix: /webhook
+  rewrite: /grafana/webhook
+  service: alert-dispatcher-service
+  timeout_ms: 30000

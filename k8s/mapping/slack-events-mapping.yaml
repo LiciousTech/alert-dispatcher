@@ -1,0 +1,12 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  namespace: alert-dispatcher
+  name: alert-dispatcher-external-mapping
+spec:
+  host: example.company.com
+  ambassdor_id: external 
+  prefix: /slack
+  rewrite: /slack
+  service: alert-dispatcher-service
+  timeout_ms: 30000
