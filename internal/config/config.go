@@ -21,8 +21,8 @@ type Config struct {
 }
 
 type AlarmChannelConfig struct {
-	AlarmMappings    map[string]string `yaml:"alarm_mappings"`
-	DefaultChannels  map[string]string `yaml:"default_channels"`
+	AlarmMappings   map[string]string `yaml:"alarm_mappings"`
+	DefaultChannels map[string]string `yaml:"default_channels"`
 }
 
 func LoadConfig() *Config {
@@ -55,9 +55,9 @@ func LoadConfig() *Config {
 
 	// Configure channels for different priorities
 	channels := map[string]string{
-		"P0":      getEnvOrDefault("SLACK_CHANNEL_P0", "#p0-infra-alerts"),
-		"P1":      getEnvOrDefault("SLACK_CHANNEL_P1", "#p1-infra-alerts"),
-		"P2":      getEnvOrDefault("SLACK_CHANNEL_P2", "#p2-infra-alerts"),
+		"P0":      getEnvOrDefault("SLACK_CHANNEL_P0", "#p0-channel"),
+		"P1":      getEnvOrDefault("SLACK_CHANNEL_P1", "#p1-channel"),
+		"P2":      getEnvOrDefault("SLACK_CHANNEL_P2", "#p2-channel"),
 		"default": getEnvOrDefault("SLACK_CHANNEL_DEFAULT", "#alerts"),
 	}
 
@@ -79,7 +79,7 @@ func LoadConfig() *Config {
 func loadAlarmChannelMappings() map[string]string {
 	configPath := getEnvOrDefault("CONFIG_PATH", "/etc/config")
 	alarmConfigFile := filepath.Join(configPath, "alarm-channels.yaml")
-	
+
 	// Check if file exists
 	if _, err := os.Stat(alarmConfigFile); os.IsNotExist(err) {
 		log.Printf("Alarm channel config file not found at %s, using defaults", alarmConfigFile)

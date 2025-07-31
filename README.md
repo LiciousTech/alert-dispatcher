@@ -41,9 +41,9 @@ A Go-based microservice that processes AWS CloudWatch alarms from SNS/SQS and Gr
                                                         │                                      │
                                               ┌─────────▼───────────┐                          │
                                               │   Slack Channels    │                          │
-                                              │ • #p0-infra-alerts  │                          │
-                                              │ • #p1-infra-alerts  │                          │
-                                              │ • #p2-infra-alerts  │                          │
+                                              │ • #p0-channel       │                          │
+                                              │ • #p1-channel       │                          │
+                                              │ • #p2-channel       │                          │
                                               └─────────┬───────────┘                          │
                                                         │                                      │ 
                                                         └────────────Slack Interactivity──────-┘
@@ -92,12 +92,12 @@ A Go-based microservice that processes AWS CloudWatch alarms from SNS/SQS and Gr
 
 3. **Set environment variables**
    ```bash
-   export SQS_QUEUE_URL="https://sqs.ap-south-1.amazonaws.com/123456789012/your-queue"
+   export SQS_QUEUE_URL="https://sqs.<region>.amazonaws.com/123456789012/your-queue"
    export SLACK_BOT_TOKEN="xoxb-your-bot-token"
    export SLACK_SIGNING_SECRET="your-signing-secret"
-   export SLACK_CHANNEL_P0="#p0-infra-alerts"
-   export SLACK_CHANNEL_P1="#p1-infra-alerts"
-   export SLACK_CHANNEL_P2="#p2-infra-alerts"
+   export SLACK_CHANNEL_P0="#p0-channel"
+   export SLACK_CHANNEL_P1="#p1-channel"
+   export SLACK_CHANNEL_P2="#p2-channel"
    export SLACK_CHANNEL_DEFAULT="#alerts"
    export SERVER_PORT="8088"
    export POLL_INTERVAL_SEC="10"
@@ -119,22 +119,22 @@ A Go-based microservice that processes AWS CloudWatch alarms from SNS/SQS and Gr
 | `SLACK_SIGNING_SECRET` | Slack app signing secret | ✅ | - |
 | `SERVER_PORT` | HTTP server port | ❌ | 8088 |
 | `POLL_INTERVAL_SEC` | SQS polling interval | ❌ | 10 |
-| `SLACK_CHANNEL_P0` | Critical alerts channel | ❌ | #p0-infra-alerts |
-| `SLACK_CHANNEL_P1` | Important alerts channel | ❌ | #p1-infra-alerts |
-| `SLACK_CHANNEL_P2` | Normal alerts channel | ❌ | #p2-infra-alerts |
+| `SLACK_CHANNEL_P0` | Critical alerts channel | ❌ | #p0-channel |
+| `SLACK_CHANNEL_P1` | Important alerts channel | ❌ | #p1-channel |
+| `SLACK_CHANNEL_P2` | Normal alerts channel | ❌ | #p2-channel |
 | `SLACK_CHANNEL_DEFAULT` | Fallback channel | ❌ | #alerts |
 
 ### Priority Routing Logic
 
-**P0 (Critical)** → `#p0-infra-alerts`:
+**P0 (Critical)** → `#p0-channel`:
 - Alarms containing "prod" or "production" in name
 - RDS and DynamoDB services
 
-**P1 (Important)** → `#p1-infra-alerts`:
+**P1 (Important)** → `#p1-channel`:
 - ELB and Lambda services
 - CPU/Memory related alarms
 
-**P2 (Normal)** → `#p2-infra-alerts`:
+**P2 (Normal)** → `#p2-channel`:
 - All other alarms (ECR, S3, etc.)
 
 ## 📱 Slack Setup
@@ -283,7 +283,7 @@ Example logs:
 2025/07/24 13:33:30 Starting HTTP server...
 2025/07/24 13:33:30 Starting SQS polling...
 2025/07/24 13:33:45 Processing message: {...}
-2025/07/24 13:33:45 Sending P1 alert to #p1-infra-alerts
+2025/07/24 13:33:45 Sending P1 alert to #p1-channel
 2025/07/24 13:34:12 Alert alert_123 acknowledged by john.doe
 ```
 

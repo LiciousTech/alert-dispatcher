@@ -4,4 +4,3 @@ metadata:
   name: alert-dispatcher
   labels:
     name: alert-dispatcher
-
