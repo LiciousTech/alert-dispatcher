@@ -1,12 +1,22 @@
-apiVersion: getambassador.io/v2
-kind: Mapping
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: alert-dispatcher-webhook-external-mapping
+  name: alert-dispatcher-webhook-ingress
   namespace: alert-dispatcher
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /grafana/webhook
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
 spec:
-  ambassador_id: external
-  host: example.company.com
-  prefix: /webhook
-  rewrite: /grafana/webhook
-  service: alert-dispatcher-service
-  timeout_ms: 30000
+  ingressClassName: nginx
+  rules:
+    - host: example.company.com
+      http:
+        paths:
+          - path: /webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: alert-dispatcher-service
+                port:
+                  number: 80 

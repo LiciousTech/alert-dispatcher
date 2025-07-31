@@ -1,12 +1,21 @@
-apiVersion: getambassador.io/v2
-kind: Mapping
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
+  name: alert-dispatcher-slack-ingress
   namespace: alert-dispatcher
-  name: alert-dispatcher-external-mapping
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
 spec:
-  host: example.company.com
-  ambassdor_id: external 
-  prefix: /slack
-  rewrite: /slack
-  service: alert-dispatcher-service
-  timeout_ms: 30000
+  ingressClassName: nginx 
+  rules:
+    - host: example.company.com
+      http:
+        paths:
+          - path: /slack
+            pathType: Prefix
+            backend:
+              service:
+                name: alert-dispatcher-service
+                port:
+                  number: 80 
