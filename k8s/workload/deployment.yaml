@@ -21,7 +21,7 @@ spec:
       serviceAccountName: alert-dispatcher-sa
       containers:
       - name: alert-dispatcher
-        image: <account-id>.dkr.ecr.<region>.amazonaws.com/alert-dispatcher:latest
+        image: licioustech/alert-dispatcher:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8088

@@ -187,6 +187,8 @@ docker run -d \
 
 ### Quick Deploy
 
+Docker image available at : `licioustech/alert-dispatcher:latest`
+
 ```bash
 # 1. Update configuration in k8s/ files
 # 2. Create secrets
