@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alert-dispatcher-slack-ingress
+  namespace: alert-dispatcher
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
+spec:
+  ingressClassName: nginx 
+  rules:
+    - host: example.company.com
+      http:
+        paths:
+          - path: /slack
+            pathType: Prefix
+            backend:
+              service:
+                name: alert-dispatcher-service
+                port:
+                  number: 80 
